@@ -1,7 +1,9 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.attr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.poi;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
 import org.json.JSONException;
 
 import java.util.List;
@@ -63,7 +65,7 @@ public interface PrecisionMarketingService {
      * @throws JSONException
      * @throws IllegalAccessException
      */
-    Map<String, Object> getComMapDTO(List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException;
+    Map<String, Object> getComMapDTO(List<Com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException;
 
     /**
      * 根据哦通信对象 获取消费信息
@@ -72,7 +74,7 @@ public interface PrecisionMarketingService {
      * @return key 为用户加密手机号
      * @throws JSONException
      */
-    Map<String, Object> getConMapDTO(List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> comenitys) throws JSONException;
+    Map<String, Object> getConMapDTO(List<Com> comenitys) throws JSONException;
 
     /**
      * 获取用户基本信息
@@ -80,7 +82,7 @@ public interface PrecisionMarketingService {
      * @param attrEnitys hbase 中取出的 用户基本信息对象
      * @return key 为用户加密手机号
      */
-    Map<String, Object> getUserAttrDTO(List<attr> attrEnitys) throws JSONException;
+    Map<String, Object> getUserAttrDTO(List<Attr> attrEnitys) throws JSONException;
 
     /**
      * 生活位置信息 转 dto
@@ -88,7 +90,7 @@ public interface PrecisionMarketingService {
      * @param poiEnitys hbase 中取出的 位置信息对象
      * @return key 为用户加密手机号
      */
-    Map<String, Object> getUsrPoiInfoLive(List<poi> poiEnitys);
+    Map<String, Object> getUsrPoiInfoLive(List<Poi> poiEnitys);
 
     /**
      * 工作坐标  转 dto
@@ -96,7 +98,7 @@ public interface PrecisionMarketingService {
      * @param poiEnitys hbase 中取出的 位置信息对象
      * @return key 为用户加密手机号
      */
-    Map<String, Object> getUsrPoiInfoWork(List<poi> poiEnitys);
+    Map<String, Object> getUsrPoiInfoWork(List<Poi> poiEnitys);
 
 
     /**
@@ -105,14 +107,14 @@ public interface PrecisionMarketingService {
      * @param cbhvrs
      * @return
      */
-    Map<String, Object> getUsrCnetBehvr(List<com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.bhvr> cbhvrs) throws IllegalAccessException, JSONException;
+    Map<String, Object> getUsrCnetBehvr(List<Bhvr> cbhvrs) throws IllegalAccessException, JSONException;
 
     /**
      * @param Gbhvrs
      * @return
      * @description 解析固网数据
      */
-    Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.bhvr> Gbhvrs) throws IllegalAccessException, JSONException;
+    Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException;
 
     /**
      * 通过楼盘编码获取用户工作坐标

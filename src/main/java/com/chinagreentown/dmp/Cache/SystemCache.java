@@ -50,7 +50,7 @@ public class SystemCache {
     private static String token = null;
 
 
-    private   final static String  path="/home/json/";
+    private   final static String  path="C:\\Users\\yun\\Desktop\\json\\";
 
     public Map<String, Map<String, String>> setUsrFixNetbhvr() throws JSONException {
         Map<String, Map<String, String>> map = Maps.newHashMap();

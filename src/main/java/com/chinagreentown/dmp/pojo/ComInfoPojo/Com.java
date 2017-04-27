@@ -3,7 +3,7 @@ package com.chinagreentown.dmp.pojo.ComInfoPojo;
 /**
  * Created by yun on 2017/4/18.
  */
-public class com {
+public class Com {
 
     private String  rowName;
     //加密手机号

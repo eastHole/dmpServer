@@ -1,19 +1,18 @@
 package com.chinagreentown.dmp.service.Impl;
 
 import com.chinagreentown.dmp.Cache.SystemCache;
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.poi;
-import com.chinagreentown.dmp.pojo.este_info.assc;
-import com.chinagreentown.dmp.pojo.este_info.bas;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.pojo.este_info.Assc;
+import com.chinagreentown.dmp.pojo.este_info.Bas;
 import com.chinagreentown.dmp.service.BaseQueryService;
 import com.chinagreentown.dmp.service.PrecisionMarketingService;
 import com.chinagreentown.dmp.util.BeanUtil;
 import com.chinagreentown.dmp.util.FakeData;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.hadoop.hbase.filter.*;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,25 +40,25 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         ByteArrayComparable comparator = new RegexStringComparator(phoneNum);
         SingleColumnValueFilter singleColumnValueFilter = new SingleColumnValueFilter("attr".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         filterList.addFilter(singleColumnValueFilter);
-        List<attr> attrs = basequery.getUserAttr("attr", filterList);//获取用户基本信息列表
+        List<Attr> attrs = basequery.getUserAttr("attr", filterList);//获取用户基本信息列表
         //通信信息过滤器
         FilterList comFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
         comFilters.addFilter(rf);
         SingleColumnValueFilter comColumnFilter = new SingleColumnValueFilter("com".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         comFilters.addFilter(comColumnFilter);
-        List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> usrComs = basequery.getUsrCom("com", comFilters);//获取通信信息数据
+        List<Com> usrComs = basequery.getUsrCom("com", comFilters);//获取通信信息数据
         //位置信息过滤器
         FilterList locationFlilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
         locationFlilters.addFilter(rf);
         SingleColumnValueFilter locationFilter = new SingleColumnValueFilter("poi".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         locationFlilters.addFilter(locationFilter);
-        List<poi> pois = basequery.getUsrPoiInfo("poi", locationFlilters);//获取位置信息数据
+        List<Poi> pois = basequery.getUsrPoiInfo("poi", locationFlilters);//获取位置信息数据
         //应用偏好过滤器
         FilterList cNetFlilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
         cNetFlilters.addFilter(rf);
         SingleColumnValueFilter cNetFilter = new SingleColumnValueFilter("bhvr".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         cNetFlilters.addFilter(cNetFilter);
-        List<bhvr> bhvr = basequery.getUsrBhvr("bhvr", cNetFlilters);
+        List<Bhvr> bhvr = basequery.getUsrBhvr("bhvr", cNetFlilters);
         Map<String, Object> usrCnetBehvr = this.getUsrCnetBehvr(bhvr);
         //用户信息转换为dto
         Map<String, Object> userAttrDTO = this.getUserAttrDTO(attrs);
@@ -89,8 +88,11 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
             if (null != workmap) {
                 usrBasMap.putAll((Map<? extends String, ?>) workmap);
             }
+            Object o = usrCnetBehvr.get(str);
+            if (null != o) {
+                usrMap.put("netBehavior", o);
+            }
             usrMap.put("BAS", usrBasMap);
-            usrMap.put("netBehavior", usrCnetBehvr.get(str));
             returnMap.put(str, usrMap);
         }
         return returnMap;
@@ -111,7 +113,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
             SingleColumnValueFilter locationFilter = new SingleColumnValueFilter("poi".getBytes(), "bd_account".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
             locationFlilters.addFilter(locationFilter);
         }
-        List<poi> pois = basequery.getUsrPoiInfo("poi", "p_live", locationFlilters);//获取位置信息数据
+        List<Poi> pois = basequery.getUsrPoiInfo("poi", "p_live", locationFlilters);//获取位置信息数据
         return this.getUsrPoiInfoLive(pois);
     }
 
@@ -132,7 +134,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
             SingleColumnValueFilter locationFilter = new SingleColumnValueFilter("poi".getBytes(), "bd_account".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
             locationFlilters.addFilter(locationFilter);
         }
-        List<poi> pois = basequery.getUsrPoiInfo("poi", "p_work", locationFlilters);//获取位置信息数据
+        List<Poi> pois = basequery.getUsrPoiInfo("poi", "p_work", locationFlilters);//获取位置信息数据
         return this.getUsrPoiInfoWork(pois);
     }
 
@@ -146,9 +148,9 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         SingleColumnValueExcludeFilter singleColumnValueExcludeFilter = new SingleColumnValueExcludeFilter("bas".getBytes(), "house_code".getBytes(), CompareFilter.CompareOp.EQUAL, cpmparator);
         filterList.addFilter(singleColumnValueExcludeFilter);
         //以楼盘编号为过滤器，选出所有的手机号码，然后再去查他们的画像
-        List<assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
+        List<Assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
         String phones = "";
-        for (assc ac : esateAssc) {
+        for (Assc ac : esateAssc) {
             String intention_tel = ac.getIntention_tel();
             phones = phones + intention_tel + "|";
         }
@@ -167,18 +169,16 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         SubstringComparator cpmparator = new SubstringComparator(EsateCode);
         SingleColumnValueExcludeFilter singleColumnValueExcludeFilter = new SingleColumnValueExcludeFilter("bas".getBytes(), "house_code".getBytes(), CompareFilter.CompareOp.EQUAL, cpmparator);
         filterList.addFilter(singleColumnValueExcludeFilter);
-        basequery.getEsateBas(EsateCode, filterList)
-
-
+        List<Bas> esateBas = basequery.getEsateBas(EsateCode, filterList);
         return null;
     }
 
     @Override
     //遍历里面的所有属性,获取通信信息对象,以手机号为key返回出去，便于存取
-    public Map<String, Object> getComMapDTO(List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException {
+    public Map<String, Object> getComMapDTO(List<Com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (com.chinagreentown.dmp.pojo.ComInfoPojo.com comenity : comenitys) {
-            Field[] fields = com.chinagreentown.dmp.pojo.ComInfoPojo.com.class.getDeclaredFields();
+        for (Com comenity : comenitys) {
+            Field[] fields = Com.class.getDeclaredFields();
             Map<String, Object> objectObjectHashMap = Maps.newHashMap();
             for (Field filed : fields) {
                 filed.setAccessible(true);
@@ -209,13 +209,13 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getConMapDTO(List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> comEnitys) throws JSONException {
+    public Map<String, Object> getConMapDTO(List<Com> comEnitys) throws JSONException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (com.chinagreentown.dmp.pojo.ComInfoPojo.com comEnity : comEnitys) {
+        for (Com comEnity : comEnitys) {
             Map<String, Object> returnMap = Maps.newHashMap();
             if (null != comEnity) {
                 String tel_cost = comEnity.getTel_cost();
-                if (comEnity != null) {
+                if (comEnity != null&&null!=tel_cost) {
                     Map<String, String> map = SystemCache.getInstance().getConMap(tel_cost);
                     Set<String> strings = map.keySet();
                     int size = strings.size();
@@ -233,10 +233,10 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUserAttrDTO(List<attr> attrEnitys) throws JSONException {
+    public Map<String, Object> getUserAttrDTO(List<Attr> attrEnitys) throws JSONException {
         Map<String, Object> ReturnMap = Maps.newLinkedHashMap();
         //便利用户详细，然后在转换为DTO
-        for (attr attrEnity : attrEnitys) {
+        for (Attr attrEnity : attrEnitys) {
             HashMap<String, Object> returnMap = Maps.newHashMap();
             String age = attrEnity.getAge();
             String gender = attrEnity.getGender();
@@ -263,9 +263,9 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUsrPoiInfoLive(List<poi> poiEnitys) {
+    public Map<String, Object> getUsrPoiInfoLive(List<Poi> poiEnitys) {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (poi poiEnity : poiEnitys) {
+        for (Poi poiEnity : poiEnitys) {
             String p_live = poiEnity.getP_live();
             HashMap<String, Object> map = Maps.newHashMap();
             map.put("p_live", p_live);
@@ -275,9 +275,9 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUsrPoiInfoWork(List<poi> poiEnitys) {
+    public Map<String, Object> getUsrPoiInfoWork(List<Poi> poiEnitys) {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (poi poiEnity : poiEnitys) {
+        for (Poi poiEnity : poiEnitys) {
             String p_live = poiEnity.getP_work();
             HashMap<String, Object> map = Maps.newHashMap();
             map.put("p_work", p_live);
@@ -287,11 +287,11 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUsrCnetBehvr(List<bhvr> bhvrs) throws IllegalAccessException, JSONException {
+    public Map<String, Object> getUsrCnetBehvr(List<Bhvr> bhvrs) throws IllegalAccessException, JSONException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (bhvr bhvrEnity : bhvrs) {
+        for (Bhvr bhvrEnity : bhvrs) {
             HashMap<String, Object> cNetMap = Maps.newHashMap();
-            Field[] fields = bhvr.class.getDeclaredFields();
+            Field[] fields = Bhvr.class.getDeclaredFields();
             for (Field filed : fields) {
                 filed.setAccessible(true);
                 Object f = filed.get(bhvrEnity);
@@ -334,11 +334,11 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.bhvr> Gbhvrs) throws IllegalAccessException, JSONException {
+    public Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (com.chinagreentown.dmp.pojo.UsrFixNetBhvr.bhvr gbhvrEnity : Gbhvrs) {
+        for (com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr gbhvrEnity : Gbhvrs) {
             HashMap<String, Object> cNetMap = Maps.newHashMap();
-            Field[] fields = bhvr.class.getDeclaredFields();
+            Field[] fields = Bhvr.class.getDeclaredFields();
             for (Field filed : fields) {
                 filed.setAccessible(true);
                 Object f = filed.get(gbhvrEnity);
@@ -391,10 +391,10 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         RowFilter rf = new RowFilter(CompareFilter.CompareOp.EQUAL, new SubstringComparator(date));
         filterList.addFilter(rf);
         //获取电话号码列表
-        List<assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
+        List<Assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
         Map<String, Object> ownerpoimap = Maps.newHashMap();
         Map<String, Object> internmap = Maps.newHashMap();
-        for (assc assc : esateAssc) {
+        for (Assc assc : esateAssc) {
             if (assc.getBuy_cus() != null) {
                 String buy_cus = assc.getBuy_cus();
                 Map<String, Object> workPlace = this.getWorkPlace(date, buy_cus, null);
@@ -428,10 +428,10 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         RowFilter rf = new RowFilter(CompareFilter.CompareOp.EQUAL, new SubstringComparator(date));
         filterList.addFilter(rf);
         //获取房产附近的电话号码
-        List<assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
+        List<Assc> esateAssc = basequery.getEsateAssc(esateCode, filterList);
         Map<String, Object> ownerpoimap = Maps.newHashMap();
         Map<String, Object> internmap = Maps.newHashMap();
-        for (assc assc : esateAssc) {
+        for (Assc assc : esateAssc) {
             if (assc.getBuy_cus() != null) {
                 //如果是成交用户跳出
                 String buy_cus = assc.getBuy_cus();
@@ -476,7 +476,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         RowFilter rf = new RowFilter(CompareFilter.CompareOp.EQUAL, new SubstringComparator(Date));
         filterList.addFilter(rf);
         filterList.addFilter(pageFilter);
-        List<attr> attrs = null;
+        List<Attr> attrs = null;
         if (lastKey != null) {
             //如果多出来的就会多出一行
             attrs = basequery.getUserAttr(lastKey, "attr", filterList);
@@ -488,7 +488,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         }
         if (attrs != null) {
             String phones = "";
-            for (attr attr : attrs) {
+            for (Attr attr : attrs) {
                 phones = phones + attr.getEncryption_tel() + "|";
 
             }

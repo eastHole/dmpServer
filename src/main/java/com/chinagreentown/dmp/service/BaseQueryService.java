@@ -1,10 +1,11 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.poi;
-import com.chinagreentown.dmp.pojo.este_info.assc;
-import com.chinagreentown.dmp.pojo.este_info.bas;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.pojo.este_info.Assc;
+import com.chinagreentown.dmp.pojo.este_info.Bas;
 import org.apache.hadoop.hbase.filter.FilterList;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface BaseQueryService {
      * @param list    过滤器
      * @return 返回对象
      */
-    List<com.chinagreentown.dmp.pojo.ComInfoPojo.com> getUsrCom(String familly, FilterList list);
+    List<Com> getUsrCom(String familly, FilterList list);
 
     /**
      * 返回用户位置信息
@@ -32,10 +33,10 @@ public interface BaseQueryService {
      * @param list
      * @return
      */
-    List<poi> getUsrPoiInfo(String familly, FilterList list);
+    List<Poi> getUsrPoiInfo(String familly, FilterList list);
 
 
-    List<poi> getUsrPoiInfo(String familly, String column, FilterList list);
+    List<Poi> getUsrPoiInfo(String familly, String column, FilterList list);
 
     /**
      * 获取用户基本信息
@@ -44,7 +45,7 @@ public interface BaseQueryService {
      * @param list
      * @return
      */
-    List<attr> getUserAttr(String familly, FilterList list);
+    List<Attr> getUserAttr(String familly, FilterList list);
 
     /**
      * 分页方法
@@ -54,7 +55,7 @@ public interface BaseQueryService {
      * @param list
      * @return
      */
-    List<attr> getUserAttr(String startrow, String familly, FilterList list);
+    List<Attr> getUserAttr(String startrow, String familly, FilterList list);
 
 
     /**
@@ -62,7 +63,7 @@ public interface BaseQueryService {
      * @param list   返回应用偏好
      * @return
      */
-    List<bhvr> getUsrBhvr(String family, FilterList list);
+    List<Bhvr> getUsrBhvr(String family, FilterList list);
 
     /**
      * 获取第一行rowKey
@@ -78,7 +79,7 @@ public interface BaseQueryService {
      *
      * @return
      */
-    List<assc> getEsateAssc(String esateCode, FilterList list);
+    List<Assc> getEsateAssc(String esateCode, FilterList list);
 
     /**
      * 获取楼盘的信息
@@ -87,7 +88,7 @@ public interface BaseQueryService {
      * @param list
      * @return
      */
-    List<com.chinagreentown.dmp.pojo.este_info.bas> getEsateBas(String esateCode, FilterList list);
+    List<Bas> getEsateBas(String esateCode, FilterList list);
 
 
 }

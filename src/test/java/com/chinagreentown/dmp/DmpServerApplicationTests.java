@@ -5,6 +5,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +42,7 @@ public class DmpServerApplicationTests {
         //单值过滤器 1 完整匹配字节数组
         new SingleColumnValueFilter("base_info".getBytes(), "name".getBytes(), CompareFilter.CompareOp.EQUAL, "zhangsan".getBytes());
         //单值过滤器2 匹配正则表达式
-        ByteArrayComparable comparator = new RegexStringComparator("zhang.");
+        ByteArrayComparable comparator = new RegexStringComparator("ece459f750dd6c86003dddc6bd52cf83");
         new SingleColumnValueFilter("info".getBytes(), "NAME".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
 
         //单值过滤器2 匹配是否包含子串,大小写不敏感
@@ -79,7 +80,11 @@ public class DmpServerApplicationTests {
         filter = new MultipleColumnPrefixFilter(prefixes);
 
         //为查询设置过滤条件
-        scan.setFilter(filter);
+        FilterList list = new FilterList(FilterList.Operator.MUST_PASS_ONE);
+        
+        scan.setFilter(list);
+
+
 
 
         scan.addFamily(Bytes.toBytes("base_info"));

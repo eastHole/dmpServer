@@ -1,10 +1,6 @@
 package com.chinagreentown.dmp.util;
 
-import com.chinagreentown.dmp.HbaseDemo;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.bhvr;
 import com.google.common.collect.Maps;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.json.JSONException;
@@ -31,7 +27,7 @@ public class BeanUtil {
         Object obj = beanClass.newInstance();
         Field[] fields = obj.getClass().getDeclaredFields();
         String[] split = beanClass.getName().split("\\.");
-        byte[] name = split[split.length - 1].getBytes();
+        byte[] name = split[split.length - 1].toLowerCase().getBytes();
         for (Field field : fields) {
             int mod = field.getModifiers();
             if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
