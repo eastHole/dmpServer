@@ -2,7 +2,7 @@ package com.chinagreentown.dmp.service.Impl;
 
 import com.chinagreentown.dmp.Mapper.*;
 import com.chinagreentown.dmp.api.HbaseTemplate;
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
 import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
 import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
 import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
@@ -39,11 +39,11 @@ public class BaseQueryServiceImpl implements BaseQueryService {
     private final static String este_info = "este_info";
 
     @Override
-    public List<Com> getUsrCom(String family, FilterList list) {
+    public List<Comm> getUsrCom(String family, FilterList list) {
         Scan scan = new Scan();
         scan.setFilter(list);
         scan.addFamily(Bytes.toBytes(family));
-        List<Com> com_info = hbaseservice.find(COMINFO, scan, new UsrComInfoMapper());
+        List<Comm> com_info = hbaseservice.find(COMINFO, scan, new UsrComInfoMapper());
         return com_info;
     }
 

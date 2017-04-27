@@ -1,6 +1,6 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
 import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
 import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
 import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
@@ -24,7 +24,7 @@ public interface BaseQueryService {
      * @param list    过滤器
      * @return 返回对象
      */
-    List<Com> getUsrCom(String familly, FilterList list);
+    List<Comm> getUsrCom(String familly, FilterList list);
 
     /**
      * 返回用户位置信息

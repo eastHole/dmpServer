@@ -1,6 +1,6 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
 import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
 import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
 import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
@@ -65,7 +65,7 @@ public interface PrecisionMarketingService {
      * @throws JSONException
      * @throws IllegalAccessException
      */
-    Map<String, Object> getComMapDTO(List<Com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException;
+    Map<String, Object> getComMapDTO(List<Comm> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException;
 
     /**
      * 根据哦通信对象 获取消费信息
@@ -74,7 +74,7 @@ public interface PrecisionMarketingService {
      * @return key 为用户加密手机号
      * @throws JSONException
      */
-    Map<String, Object> getConMapDTO(List<Com> comenitys) throws JSONException;
+    Map<String, Object> getConMapDTO(List<Comm> comenitys) throws JSONException;
 
     /**
      * 获取用户基本信息

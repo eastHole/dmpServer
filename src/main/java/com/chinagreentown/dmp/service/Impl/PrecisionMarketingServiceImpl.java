@@ -1,7 +1,7 @@
 package com.chinagreentown.dmp.service.Impl;
 
 import com.chinagreentown.dmp.Cache.SystemCache;
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Com;
+import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
 import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
 import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
 import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
@@ -46,7 +46,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         comFilters.addFilter(rf);
         SingleColumnValueFilter comColumnFilter = new SingleColumnValueFilter("com".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         comFilters.addFilter(comColumnFilter);
-        List<Com> usrComs = basequery.getUsrCom("com", comFilters);//获取通信信息数据
+        List<Comm> usrComs = basequery.getUsrCom("com", comFilters);//获取通信信息数据
         //位置信息过滤器
         FilterList locationFlilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
         locationFlilters.addFilter(rf);
@@ -175,10 +175,10 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
 
     @Override
     //遍历里面的所有属性,获取通信信息对象,以手机号为key返回出去，便于存取
-    public Map<String, Object> getComMapDTO(List<Com> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException {
+    public Map<String, Object> getComMapDTO(List<Comm> comenitys) throws NoSuchFieldException, JSONException, IllegalAccessException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (Com comenity : comenitys) {
-            Field[] fields = Com.class.getDeclaredFields();
+        for (Comm comenity : comenitys) {
+            Field[] fields = Comm.class.getDeclaredFields();
             Map<String, Object> objectObjectHashMap = Maps.newHashMap();
             for (Field filed : fields) {
                 filed.setAccessible(true);
@@ -209,9 +209,9 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getConMapDTO(List<Com> comEnitys) throws JSONException {
+    public Map<String, Object> getConMapDTO(List<Comm> comEnitys) throws JSONException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (Com comEnity : comEnitys) {
+        for (Comm comEnity : comEnitys) {
             Map<String, Object> returnMap = Maps.newHashMap();
             if (null != comEnity) {
                 String tel_cost = comEnity.getTel_cost();
