@@ -1,7 +1,7 @@
-package com.chinagreentown.dmp.Mapper;
+package com.chinagreentown.dmp.mapper;
 
 import com.chinagreentown.dmp.api.RowMapper;
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
+import com.chinagreentown.dmp.pojo.comInfoPojo.Comm;
 import com.chinagreentown.dmp.util.BeanUtil;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;

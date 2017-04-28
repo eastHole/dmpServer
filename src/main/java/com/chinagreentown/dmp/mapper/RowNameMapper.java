@@ -1,8 +1,6 @@
-package com.chinagreentown.dmp.Mapper;
+package com.chinagreentown.dmp.mapper;
 
 import com.chinagreentown.dmp.api.RowMapper;
-import com.chinagreentown.dmp.pojo.PeopleDto;
-import com.google.common.primitives.Bytes;
 import org.apache.hadoop.hbase.client.Result;
 
 /**

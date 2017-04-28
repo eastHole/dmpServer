@@ -1,4 +1,4 @@
-package com.chinagreentown.dmp.service.Impl;
+package com.chinagreentown.dmp.service.impl;
 
 import com.chinagreentown.dmp.service.SaleCenterService;
 import org.springframework.stereotype.Service;

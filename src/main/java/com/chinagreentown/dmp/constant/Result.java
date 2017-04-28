@@ -1,7 +1,6 @@
-package com.chinagreentown.dmp.Constant;
+package com.chinagreentown.dmp.constant;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.sun.org.apache.regexp.internal.RE;
 
 /**
  * Created by yun on 2017/4/20.

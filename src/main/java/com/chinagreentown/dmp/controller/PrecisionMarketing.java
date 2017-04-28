@@ -1,7 +1,7 @@
 package com.chinagreentown.dmp.controller;
 
-import com.chinagreentown.dmp.Cache.SystemCache;
-import com.chinagreentown.dmp.Constant.Result;
+import com.chinagreentown.dmp.cache.SystemCache;
+import com.chinagreentown.dmp.constant.Result;
 import com.chinagreentown.dmp.pojo.PeopleDto;
 import com.chinagreentown.dmp.pojo.precisionmarketing.*;
 import com.chinagreentown.dmp.service.PrecisionMarketingService;

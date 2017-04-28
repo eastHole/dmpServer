@@ -1,4 +1,4 @@
-package com.chinagreentown.dmp.Mapper;
+package com.chinagreentown.dmp.mapper;
 
 import com.chinagreentown.dmp.api.RowMapper;
 import com.chinagreentown.dmp.pojo.este_info.Bas;

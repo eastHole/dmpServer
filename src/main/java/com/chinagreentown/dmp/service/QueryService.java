@@ -1,7 +1,6 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.Cache.SystemCache;
-import com.chinagreentown.dmp.Mapper.PeopleRowMapper;
+import com.chinagreentown.dmp.mapper.PeopleRowMapper;
 import com.chinagreentown.dmp.api.HbaseTemplate;
 import com.chinagreentown.dmp.pojo.PeopleDto;
 import com.chinagreentown.dmp.pojo.UserInfo;

@@ -1,6 +1,6 @@
 package com.chinagreentown.dmp.controller;
 
-import com.chinagreentown.dmp.Constant.Result;
+import com.chinagreentown.dmp.constant.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

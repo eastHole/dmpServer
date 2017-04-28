@@ -1,6 +1,6 @@
 package com.chinagreentown.dmp.controller;
 
-import com.chinagreentown.dmp.Constant.Result;
+import com.chinagreentown.dmp.constant.Result;
 import com.chinagreentown.dmp.service.QueryService;
 import com.chinagreentown.dmp.util.FakeData;
 import com.google.common.collect.Lists;

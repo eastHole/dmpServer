@@ -1,11 +1,10 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.Mapper.PeopleRowMapper;
+import com.chinagreentown.dmp.mapper.PeopleRowMapper;
 import com.chinagreentown.dmp.api.HbaseTemplate;
 import com.chinagreentown.dmp.pojo.PeopleDto;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.filter.*;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

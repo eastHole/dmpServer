@@ -1,9 +1,9 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.pojo.comInfoPojo.Comm;
+import com.chinagreentown.dmp.pojo.usrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.usrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.usrPoiInfoPojo.Poi;
 import org.json.JSONException;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public interface PrecisionMarketingService {
      * @return
      * @description 解析固网数据
      */
-    Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException;
+    Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.usrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException;
 
     /**
      * 通过楼盘编码获取用户工作坐标

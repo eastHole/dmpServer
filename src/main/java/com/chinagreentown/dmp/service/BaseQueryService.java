@@ -1,9 +1,9 @@
 package com.chinagreentown.dmp.service;
 
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.pojo.comInfoPojo.Comm;
+import com.chinagreentown.dmp.pojo.usrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.usrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.usrPoiInfoPojo.Poi;
 import com.chinagreentown.dmp.pojo.este_info.Assc;
 import com.chinagreentown.dmp.pojo.este_info.Bas;
 import org.apache.hadoop.hbase.filter.FilterList;

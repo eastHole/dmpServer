@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 public class BeanUtil {
 
     public static Object mapRow(Result result, Class<?> beanClass) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-//        Object obj = UsrCNetBhvrPojo.class.getConstructor(UsrCNetBhvrPojo.class).newInstance(beanClass);
         Object obj = beanClass.newInstance();
         Field[] fields = obj.getClass().getDeclaredFields();
         String[] split = beanClass.getName().split("\\.");
@@ -35,11 +34,6 @@ public class BeanUtil {
             }
             //据说能提升性能
             field.setAccessible(true);
-            //最后一个类名就是他的family 列名
-//            if(field.getName().equals("age")){
-//                byte[] value = result.getValue(name, "age".getBytes());
-//                System.out.println(Bytes.toString(value));
-//            }
             String value = Bytes.toString(result.getValue(name, field.getName().getBytes()));
             if (null != value && !value.equals("NULL")) {
                 field.set(obj, value);
@@ -119,8 +113,6 @@ public class BeanUtil {
     }
 
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(getRegexPhoneNums("18968102733,18967543422"));
-    }
+
 
 }

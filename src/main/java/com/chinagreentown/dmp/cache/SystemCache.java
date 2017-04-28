@@ -1,4 +1,4 @@
-package com.chinagreentown.dmp.Cache;
+package com.chinagreentown.dmp.cache;
 
 import com.chinagreentown.dmp.util.BeanUtil;
 import com.chinagreentown.dmp.util.FileUtil;
@@ -50,7 +50,7 @@ public class SystemCache {
     private static String token = null;
 
 
-    private   final static String  path="C:\\Users\\yun\\Desktop\\json\\";
+    private   final static String  path="/home/json/";
 
     public Map<String, Map<String, String>> setUsrFixNetbhvr() throws JSONException {
         Map<String, Map<String, String>> map = Maps.newHashMap();

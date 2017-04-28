@@ -1,11 +1,11 @@
-package com.chinagreentown.dmp.service.Impl;
+package com.chinagreentown.dmp.service.impl;
 
-import com.chinagreentown.dmp.Mapper.*;
+import com.chinagreentown.dmp.mapper.*;
 import com.chinagreentown.dmp.api.HbaseTemplate;
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.pojo.comInfoPojo.Comm;
+import com.chinagreentown.dmp.pojo.usrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.usrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.usrPoiInfoPojo.Poi;
 import com.chinagreentown.dmp.pojo.este_info.Assc;
 import com.chinagreentown.dmp.pojo.este_info.Bas;
 import com.chinagreentown.dmp.service.BaseQueryService;

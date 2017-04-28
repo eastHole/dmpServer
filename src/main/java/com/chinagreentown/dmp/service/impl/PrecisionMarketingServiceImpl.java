@@ -1,10 +1,10 @@
-package com.chinagreentown.dmp.service.Impl;
+package com.chinagreentown.dmp.service.impl;
 
-import com.chinagreentown.dmp.Cache.SystemCache;
-import com.chinagreentown.dmp.pojo.ComInfoPojo.Comm;
-import com.chinagreentown.dmp.pojo.UsrBasAttrPojo.Attr;
-import com.chinagreentown.dmp.pojo.UsrCNetBhvrPojo.Bhvr;
-import com.chinagreentown.dmp.pojo.UsrPoiInfoPojo.Poi;
+import com.chinagreentown.dmp.cache.SystemCache;
+import com.chinagreentown.dmp.pojo.comInfoPojo.Comm;
+import com.chinagreentown.dmp.pojo.usrBasAttrPojo.Attr;
+import com.chinagreentown.dmp.pojo.usrCNetBhvrPojo.Bhvr;
+import com.chinagreentown.dmp.pojo.usrPoiInfoPojo.Poi;
 import com.chinagreentown.dmp.pojo.este_info.Assc;
 import com.chinagreentown.dmp.pojo.este_info.Bas;
 import com.chinagreentown.dmp.service.BaseQueryService;
@@ -46,7 +46,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         comFilters.addFilter(rf);
         SingleColumnValueFilter comColumnFilter = new SingleColumnValueFilter("com".getBytes(), "encryption_tel".getBytes(), CompareFilter.CompareOp.EQUAL, comparator);
         comFilters.addFilter(comColumnFilter);
-        List<Comm> usrComs = basequery.getUsrCom("com", comFilters);//获取通信信息数据
+        List<Comm> usrComs = basequery.getUsrCom("comm", comFilters);//获取通信信息数据
         //位置信息过滤器
         FilterList locationFlilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
         locationFlilters.addFilter(rf);
@@ -67,7 +67,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         Map<String, Object> usrPoiInfoLive = this.getUsrPoiInfoLive(pois);
         Map<String, Object> usrPoiInfoWork = this.getUsrPoiInfoWork(pois);
         Set<String> tels = userAttrDTO.keySet();
-        HashMap<String, Object> returnMap = Maps.newHashMap();
+        Map<String, Object> returnMap = Maps.newLinkedHashMap();
         for (String str : tels) {
             HashMap<String, Object> usrMap = Maps.newHashMap();
 //            Map<String, Object> stringObjectMap = (Map<String, Object>) userAttrDTO.get(str);
@@ -80,12 +80,12 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
                 usrMap.put("CON", con);
             }
             Map<String, Object> usrBasMap = (Map<String, Object>) userAttrDTO.get(str);
-            Map<? extends String, ?> livemap = (Map<? extends String, ?>) usrPoiInfoLive.get(str);
-            if (null != livemap && livemap.isEmpty()) {
+            Map<String, Map<String,Object>> livemap = (Map<String, Map<String, Object>>) usrPoiInfoLive.get(str);
+            if (null != livemap && !livemap.isEmpty()) {
                 usrBasMap.putAll((Map<? extends String, ?>) livemap);
             }
-            Map<? extends String, ?> workmap = (Map<? extends String, ?>) usrPoiInfoWork.get(str);
-            if (null != workmap) {
+            Map<String, Map<String,Object>> workmap = (Map<String, Map<String, Object>>) usrPoiInfoWork.get(str);
+            if (null != workmap&&!livemap.isEmpty()) {
                 usrBasMap.putAll((Map<? extends String, ?>) workmap);
             }
             Object o = usrCnetBehvr.get(str);
@@ -268,8 +268,10 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
         for (Poi poiEnity : poiEnitys) {
             String p_live = poiEnity.getP_live();
             HashMap<String, Object> map = Maps.newHashMap();
-            map.put("p_live", p_live);
-            ReturnMap.put(poiEnity.getEncryption_tel(), map);
+            if(null!=p_live&&!p_live.isEmpty()) {
+                map.put("p_live", p_live);
+                ReturnMap.put(poiEnity.getEncryption_tel(), map);
+            }
         }
         return ReturnMap;
     }
@@ -278,10 +280,12 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     public Map<String, Object> getUsrPoiInfoWork(List<Poi> poiEnitys) {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
         for (Poi poiEnity : poiEnitys) {
-            String p_live = poiEnity.getP_work();
+            String p_work = poiEnity.getP_work();
             HashMap<String, Object> map = Maps.newHashMap();
-            map.put("p_work", p_live);
-            ReturnMap.put(poiEnity.getEncryption_tel(), map);
+            if(null!=p_work&&!p_work.isEmpty()) {
+                map.put("p_work", p_work);
+                ReturnMap.put(poiEnity.getEncryption_tel(), map);
+            }
         }
         return ReturnMap;
     }
@@ -334,9 +338,9 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
     }
 
     @Override
-    public Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException {
+    public Map<String, Object> getUsrFixBhvr(List<com.chinagreentown.dmp.pojo.usrFixNetBhvr.Bhvr> Gbhvrs) throws IllegalAccessException, JSONException {
         HashMap<String, Object> ReturnMap = Maps.newHashMap();
-        for (com.chinagreentown.dmp.pojo.UsrFixNetBhvr.Bhvr gbhvrEnity : Gbhvrs) {
+        for (com.chinagreentown.dmp.pojo.usrFixNetBhvr.Bhvr gbhvrEnity : Gbhvrs) {
             HashMap<String, Object> cNetMap = Maps.newHashMap();
             Field[] fields = Bhvr.class.getDeclaredFields();
             for (Field filed : fields) {
@@ -459,7 +463,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
 
     @Override
     public Map<String, Object> getRecentlyUserLabel(int pageSize, int pageIndex, String Date, String lastKey) throws IllegalAccessException, NoSuchFieldException, JSONException {
-        Map<String, Object> objectObjectHashMap = Maps.newHashMap();
+        Map<String, Object> objectObjectHashMap = Maps.newLinkedHashMap();
         if (Date == null) {
             String usr_bas_attr = basequery.getFirstData("usr_bas_attr");
             if (usr_bas_attr.isEmpty()) {
@@ -494,7 +498,7 @@ public class PrecisionMarketingServiceImpl implements PrecisionMarketingService 
             }
             if (!phones.isEmpty()) {
                 phones = phones.substring(0, phones.length() - 1);
-                objectObjectHashMap = (HashMap<String, Object>) this.getUsrLabelInfo(Date, phones);
+                objectObjectHashMap =  this.getUsrLabelInfo(Date, phones);
             }
         }
         return objectObjectHashMap;
